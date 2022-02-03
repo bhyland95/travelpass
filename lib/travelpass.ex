@@ -30,7 +30,7 @@ defmodule Travelpass do
       #calls function to return an average
       temp_average = average(temp_values)
 
-      #calls function to return Celcius to Fahrenheit
+      #calls function to convert Celcius to Fahrenheit
       fahrenheit = convert_to_fahrenheit(temp_average)
 
       IO.puts("#{city_name} Average Max Temp: #{fahrenheit}")
