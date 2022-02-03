@@ -14,6 +14,7 @@ defmodule Travelpass do
       #awaits the return of each process 
       Task.await_many(tasks)
        # for t <- tasks, do: Task.await(t)
+    
   end 
   
 
@@ -43,7 +44,7 @@ defmodule Travelpass do
 
   #Converts Celcius to Fahrenheit
   def convert_to_fahrenheit(value) do 
-    value * 9/5 + 32
+    value * 9/5 + 32 |> Float.ceil(2)
   end
 
 end
