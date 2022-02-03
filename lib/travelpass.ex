@@ -2,13 +2,6 @@ defmodule Travelpass do
 
  
   def return_results do 
-    # for n <- [
-    #     "https://www.metaweather.com/api/location/2487610/",
-    #     "https://www.metaweather.com/api/location/2442047/",
-    #     "https://www.metaweather.com/api/location/2366355/"
-    #   ], do: Task.start(fn -> fetch_weather(n) end )
-
-
     #input your different city locations here
       tasks = for n <- [
         "https://www.metaweather.com/api/location/2487610/",
@@ -19,7 +12,8 @@ defmodule Travelpass do
       do: Task.async(fn -> fetch_weather(n) end )
 
       #awaits the return of each process 
-      for t <- tasks, do: Task.await(t)
+      Task.await_many(tasks)
+       # for t <- tasks, do: Task.await(t)
   end 
   
 
