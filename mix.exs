@@ -20,6 +20,10 @@ defmodule Travelpass.MixProject do
 
   # Run "mix help deps" to learn about dependencies.
   defp deps do
-    [{:httpoison, "~> 1.8"}, {:poison, "~> 5.0"}]
+    [
+      {:httpoison, "~> 1.8"}, 
+      {:poison, "~> 5.0"}, 
+      {:mox, "~> 1.0", only: :test}
+    ]
   end
 end
