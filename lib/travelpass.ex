@@ -1,4 +1,7 @@
 defmodule Travelpass do
+   @moduledoc """
+  Provides a function `return_results/0` that asynchronously returns a six-day average in Fahrenheit of one or more city's maximum temperatures. 
+  """
 
   def return_results do 
     
@@ -34,13 +37,45 @@ defmodule Travelpass do
     end
   end
 
-  
+  @doc """
+  Finds the average of numerical values in a list.
+
+  ## Parameters
+
+    - values: List containing integers 
+
+  ## Examples
+
+      iex> Travelpass.average([1,2,3])
+      2
+
+      iex> Greeter.hello([5,9,12])
+      8.67
+
+  """
+  @spec average([integer]) :: integer
   def average(values) do 
     (Enum.sum(values) / Enum.count(values))
       |> Float.ceil(2)
   end
 
+@doc """
+  Converts a temperature in Celcius to a temperature in Fahrenheit
 
+  ## Parameters
+
+    - value: An integer or number 
+
+  ## Examples
+
+      iex> Travelpass.convert_to_fahrenheit(0)
+      32
+
+      iex> Greeter.hello(12.67)
+      54.81
+
+  """
+  @spec convert_to_fahrenheit(number) :: number
   def convert_to_fahrenheit(value) do 
     value * 9/5 + 32 
       |> Float.ceil(2)
