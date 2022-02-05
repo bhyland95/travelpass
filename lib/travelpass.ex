@@ -19,24 +19,28 @@ defmodule Travelpass do
   
   def fetch_weather(url) do    
     
-    case HTTPoison.get(url) do
+    case  http_client().get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        
-        %{consolidated_weather: consolidated_weather, title: city_name} = Poison.decode! body, keys: :atoms
-        temp = Enum.map(consolidated_weather, fn (x) -> x[:max_temp] end)
+        # IO.puts body
+        %{consolidated_weather: weather, title: city_name} = Poison.decode! body, keys: :atoms
+        temp = Enum.map(weather, fn (x) -> x[:max_temp] end)
           |>  average()
           |>  convert_to_fahrenheit()
 
         IO.puts("#{city_name} Average Max Temp: #{temp}")
           
       {:ok, %HTTPoison.Response{status_code: 404}} ->
-        IO.puts "Location Not found "
+        IO.puts "Location not found"
 
       {:error, %HTTPoison.Error{reason: reason}} ->
         IO.inspect reason
     end
   end
 
+  defp http_client do
+    Application.get_env(:travelpass, :http_client)
+  end
+  
   @doc """
   Finds the average of numerical values in a list.
 
@@ -47,7 +51,7 @@ defmodule Travelpass do
   ## Examples
 
       iex> Travelpass.average([1,2,3])
-      2
+      2.0
 
       iex> Travelpass.average([5.5, 9, 12.25])
       8.92
@@ -69,7 +73,7 @@ defmodule Travelpass do
   ## Examples
 
       iex> Travelpass.convert_to_fahrenheit(0)
-      32
+      32.0
 
       iex> Travelpass.convert_to_fahrenheit(12.67)
       54.81
@@ -80,5 +84,7 @@ defmodule Travelpass do
     value * 9/5 + 32 
       |> Float.ceil(2)
   end
+
+  
 
 end
