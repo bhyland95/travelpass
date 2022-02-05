@@ -11,24 +11,17 @@ defmodule Travelpass do
         "https://www.metaweather.com/api/location/2366355/"
       ], 
      
-      do: Task.async(fn -> fetch_weather(n) end )
+      do: Task.async(fn -> get_temp(n) end )
 
      
       Task.await_many(tasks)
   end 
   
-  def fetch_weather(url) do    
-    
+  def weather_request(url) do    
     case  http_client().get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        # IO.puts body
-        %{consolidated_weather: weather, title: city_name} = Poison.decode! body, keys: :atoms
-        temp = Enum.map(weather, fn (x) -> x[:max_temp] end)
-          |>  average()
-          |>  convert_to_fahrenheit()
+         body
 
-        IO.puts("#{city_name} Average Max Temp: #{temp}")
-          
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         IO.puts "Location not found"
 
@@ -37,9 +30,21 @@ defmodule Travelpass do
     end
   end
 
-  defp http_client do
+    defp http_client do
     Application.get_env(:travelpass, :http_client)
   end
+
+  def get_temp(url) do 
+    body = weather_request(url)
+    %{consolidated_weather: weather, title: city_name} = Poison.decode! body, keys: :atoms
+        temp = Enum.map(weather, fn (x) -> x[:max_temp] end)
+          |>  average()
+          |>  convert_to_fahrenheit()
+
+        IO.puts("#{city_name} Average Max Temp: #{temp}")
+  end
+
+
   
   @doc """
   Finds the average of numerical values in a list.

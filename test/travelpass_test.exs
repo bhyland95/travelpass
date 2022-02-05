@@ -19,6 +19,14 @@ defmodule TravelpassTest do
   end
 
 
+
+  test "A correct URL is passed through to fetch weather" do
+    url = insert(:url)
+
+    Travelpass.fetch_weather(url)
+    |> expect()
+
+
   # test ":ok on 200" do
   #   expect(HTTPoison.BaseMock, :get, fn _ -> {:ok, ""} end)
 
