@@ -42,18 +42,18 @@ defmodule Travelpass do
 
   ## Parameters
 
-    - values: List containing integers 
+    - values: List containing integers or numbers
 
   ## Examples
 
       iex> Travelpass.average([1,2,3])
       2
 
-      iex> Greeter.hello([5,9,12])
-      8.67
+      iex> Travelpass.average([5.5, 9, 12.25])
+      8.92
 
   """
-  @spec average([integer]) :: integer
+  @spec average([number]) :: number
   def average(values) do 
     (Enum.sum(values) / Enum.count(values))
       |> Float.ceil(2)
@@ -71,7 +71,7 @@ defmodule Travelpass do
       iex> Travelpass.convert_to_fahrenheit(0)
       32
 
-      iex> Greeter.hello(12.67)
+      iex> Travelpass.convert_to_fahrenheit(12.67)
       54.81
 
   """
