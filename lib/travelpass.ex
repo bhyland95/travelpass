@@ -18,23 +18,25 @@ defmodule Travelpass do
   end 
   
   def weather_request(url) do    
-    case  http_client().get(url) do
+    case  HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-         body
+        body
 
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         IO.puts "Location not found"
+        
 
       {:error, %HTTPoison.Error{reason: reason}} ->
         IO.inspect reason
     end
   end
 
-    defp http_client do
-    Application.get_env(:travelpass, :http_client)
-  end
+  #   defp http_client do
+  #   Application.get_env(:travelpass, :http_client)
+  # end
 
   def get_temp(url) do 
+    
     body = weather_request(url)
     %{consolidated_weather: weather, title: city_name} = Poison.decode! body, keys: :atoms
         temp = Enum.map(weather, fn (x) -> x[:max_temp] end)
@@ -42,6 +44,7 @@ defmodule Travelpass do
           |>  convert_to_fahrenheit()
 
         IO.puts("#{city_name} Average Max Temp: #{temp}")
+        "#{city_name} Average Max Temp: #{temp}"
   end
 
 

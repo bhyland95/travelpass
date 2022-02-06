@@ -23,7 +23,8 @@ defmodule Travelpass.MixProject do
     [
       {:httpoison, "~> 1.8"}, 
       {:poison, "~> 5.0"}, 
-      {:mox, "~> 1.0", only: :test}
+      {:mox, "~> 1.0", only: :test},
+      {:mock, "~> 0.3.0", only: :test}
     ]
   end
 end
