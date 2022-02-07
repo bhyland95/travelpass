@@ -8,7 +8,7 @@ defmodule Travelpass do
   It will await for all the URLS in 'tasks' to finish before moving on. 
   """
   def return_results do 
-    
+      # Add URLs with the location ID here to see the average temp for the specified location
       tasks = for n <- [
         "https://www.metaweather.com/api/location/2487610/",
         "https://www.metaweather.com/api/location/2442047/",
