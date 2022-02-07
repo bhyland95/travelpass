@@ -16,7 +16,6 @@ defmodule Travelpass do
       ], 
      
       do: Task.async(fn -> get_temp(n) end )
-
      
       Task.await_many(tasks)
   end 
@@ -37,7 +36,6 @@ defmodule Travelpass do
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         IO.puts "Location not found"
         
-
       {:error, %HTTPoison.Error{reason: reason}} ->
         IO.inspect reason
     end
@@ -61,7 +59,6 @@ defmodule Travelpass do
           |>  convert_to_fahrenheit()
 
         IO.puts("#{city_name} Average Max Temp: #{temp}")
-        
   end
   
   @doc """
@@ -89,7 +86,4 @@ defmodule Travelpass do
     value * 9/5 + 32 
       |> Float.ceil(2)
   end
-
-  
-
 end
