@@ -31,23 +31,17 @@ defmodule Travelpass do
     end
   end
 
-  #   defp http_client do
-  #   Application.get_env(:travelpass, :http_client)
-  # end
-
   def get_temp(url) do 
-    
     body = weather_request(url)
+    
     %{consolidated_weather: weather, title: city_name} = Poison.decode! body, keys: :atoms
-        temp = Enum.map(weather, fn (x) -> x[:max_temp] end)
+         temp = Enum.map(weather, fn (x) -> x[:max_temp] end)
           |>  average()
           |>  convert_to_fahrenheit()
 
         IO.puts("#{city_name} Average Max Temp: #{temp}")
-        "#{city_name} Average Max Temp: #{temp}"
+        
   end
-
-
   
   @doc """
   Finds the average of numerical values in a list.
@@ -56,16 +50,8 @@ defmodule Travelpass do
 
     - values: List containing integers or numbers
 
-  ## Examples
-
-      iex> Travelpass.average([1,2,3])
-      2.0
-
-      iex> Travelpass.average([5.5, 9, 12.25])
-      8.92
-
   """
-  @spec average([number]) :: number
+ 
   def average(values) do 
     (Enum.sum(values) / Enum.count(values))
       |> Float.ceil(2)
@@ -78,16 +64,8 @@ defmodule Travelpass do
 
     - value: An integer or number 
 
-  ## Examples
-
-      iex> Travelpass.convert_to_fahrenheit(0)
-      32.0
-
-      iex> Travelpass.convert_to_fahrenheit(12.67)
-      54.81
-
   """
-  @spec convert_to_fahrenheit(number) :: number
+
   def convert_to_fahrenheit(value) do 
     value * 9/5 + 32 
       |> Float.ceil(2)
