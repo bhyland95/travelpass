@@ -3,6 +3,10 @@ defmodule Travelpass do
   Provides a function `return_results/0` that asynchronously returns a six-day average in Fahrenheit of one or more city's maximum temperatures. 
   """
 
+  @doc """
+  Asynchronously runs calls to the metaweather api for all the URLs contained in 'tasks' variable. 
+  It will await for all the URLS in 'tasks' to finish before moving on. 
+  """
   def return_results do 
     
       tasks = for n <- [
@@ -16,7 +20,15 @@ defmodule Travelpass do
      
       Task.await_many(tasks)
   end 
-  
+
+
+  @doc """
+  Makes a request to the metaweather API and returns the data if the status code is 200.
+
+  ## Parameters
+
+    - url: A String of the URL from the metaweather API with the location ID attached.
+  """
   def weather_request(url) do    
     case  HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
@@ -30,7 +42,16 @@ defmodule Travelpass do
         IO.inspect reason
     end
   end
+  @doc """
+  Calls the 'weather_request' function and decodes the data. 
+  This function grabs the max_temp for each day of the 6-day forecast of a city as well as the city name.
+  It then averages the temperatures, converts the new temperature from Celcius to Fahrenheit, 
+  and returns a string stating the average temperature for the city. 
 
+  ## Parameters
+
+    - url: A String of the URL from the metaweather API with the location ID attached. 
+  """
   def get_temp(url) do 
     body = weather_request(url)
     
@@ -51,7 +72,6 @@ defmodule Travelpass do
     - values: List containing integers or numbers
 
   """
- 
   def average(values) do 
     (Enum.sum(values) / Enum.count(values))
       |> Float.ceil(2)
@@ -65,7 +85,6 @@ defmodule Travelpass do
     - value: An integer or number 
 
   """
-
   def convert_to_fahrenheit(value) do 
     value * 9/5 + 32 
       |> Float.ceil(2)

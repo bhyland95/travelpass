@@ -21,25 +21,25 @@ defmodule TravelpassTest do
     assert Travelpass.average([5,9,12]) == 8.67
   end
 
-  test "test_name" do
+  test "200-response on metaweather API" do
     with_mock HTTPoison, [get: fn(_url) -> {:ok, %HTTPoison.Response{status_code: 200, body: @api_200_response}} end] do
       assert Travelpass.weather_request("https://www.metaweather.com/api/location/2487610/") == @api_200_response
     end
   end
 
-  test "test_name2" do
+  test "404-response on metaweather API" do
     with_mock HTTPoison, [get: fn(_url) -> {:ok, %HTTPoison.Response{status_code: 404}} end] do
       assert Travelpass.weather_request("https://www.metaweather.com/api/location/2487610/") == :ok
     end
   end
 
-  test "test_name3" do
+  test "Error on metaweather API" do
     with_mock HTTPoison, [get: fn(_url) -> {:error, %HTTPoison.Error{reason: "reason"}} end] do
       assert Travelpass.weather_request("https://www.metaweather.com/api/location/2487610/") == "reason"
     end
   end
 
-  test "test_name4" do
+  test "Successful return of average temp and cityname from metaweather API" do
     with_mock HTTPoison, [get: fn(_url) -> {:ok, %HTTPoison.Response{status_code: 200, body: @api_200_response}} end] do
       assert Travelpass.get_temp("https://www.metaweather.com/api/location/2487610/") == :ok
     end
