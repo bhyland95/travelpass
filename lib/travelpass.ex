@@ -2,18 +2,20 @@ defmodule Travelpass do
    @moduledoc """
   Provides a function `return_results/0` that asynchronously returns a six-day average in Fahrenheit of one or more city's maximum temperatures. 
   """
+  
+  # Add URLs with the location ID here to see the average temp returned for the specified location
+  @urls [
+  "https://www.metaweather.com/api/location/2487610/",
+  "https://www.metaweather.com/api/location/2442047/",
+  "https://www.metaweather.com/api/location/2366355/"
+  ]
 
   @doc """
   Asynchronously runs calls to the metaweather api for all the URLs contained in 'tasks' variable. 
   It will await for all the URLS in 'tasks' to finish before moving on. 
   """
   def return_results do 
-      # Add URLs with the location ID here to see the average temp for the specified location
-      tasks = for n <- [
-        "https://www.metaweather.com/api/location/2487610/",
-        "https://www.metaweather.com/api/location/2442047/",
-        "https://www.metaweather.com/api/location/2366355/"
-      ], 
+      tasks = for n <- @urls, 
      
       do: Task.async(fn -> get_temp(n) end )
      
